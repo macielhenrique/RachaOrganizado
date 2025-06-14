@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Trabalho DAC20251 – Código - Jose_Henrique</name>
+	<name>Trabalho_DAC20251_Codigo_Jose_Henrique</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -28,4 +28,11 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/webapp/WEB-INF/lib/el-api-2.2.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-4-PROJECT_LOC/Downloads/el-api-2.2.jar</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

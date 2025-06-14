@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Listagem de Jogos</title>
+    <meta charset="utf-8"/>
+</h:head>
+
+<h:body>
+    <div style="margin: 30px;">
+        <p:panel header="Listagem de Jogos">
+            <h:form>
+                <p:messages autoUpdate="true"/>
+                
+                <div style="margin-bottom: 20px;">
+                    <p:button value="Novo Jogo" outcome="cadastro_jogo" style="margin-right: 10px;"/>
+                    <p:commandButton value="Resumo" action="#{jogoBean.gerarResumo}" 
+                                   update="@form" style="margin-right: 10px;"/>
+                    <p:button value="Voltar" outcome="opcoes"/>
+                </div>
+                
+                <p:dataTable value="#{jogoBean.jogos}" var="jogo" 
+                           emptyMessage="Nenhum jogo cadastrado" id="tabelaJogos">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{jogo.id}"/>
+                    </p:column>
+                    <p:column headerText="Data Partida">
+                        <h:outputText value="#{jogo.dataPartida}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Campeonato">
+                        <h:outputText value="#{jogo.campeonato.nome}"/>
+                    </p:column>
+                    <p:column headerText="Time 1">
+                        <h:outputText value="#{jogo.time1}"/>
+                    </p:column>
+                    <p:column headerText="Time 2">
+                        <h:outputText value="#{jogo.time2}"/>
+                    </p:column>
+                    <p:column headerText="Gols T1">
+                        <h:outputText value="#{jogo.golsTime1}"/>
+                    </p:column>
+                    <p:column headerText="Gols T2">
+                        <h:outputText value="#{jogo.golsTime2}"/>
+                    </p:column>
+                    <p:column headerText="Ações">
+                        <p:commandButton value="Editar" action="#{jogoBean.editar(jogo)}" 
+                                       update="tabelaJogos" style="margin-right: 5px;">
+                            <p:confirm header="Confirmação" message="Deseja editar este jogo?"/>
+                        </p:commandButton>
+                        <p:commandButton value="Excluir" action="#{jogoBean.excluir(jogo)}" 
+                                       update="tabelaJogos">
+                            <p:confirm header="Confirmação" message="Deseja excluir este jogo?"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no"/>
+                </p:confirmDialog>
+                
+                <!-- Resumo dos Times -->
+                <p:panel header="Resumo dos Times" rendered="#{jogoBean.exibirResumos}" 
+                        style="margin-top: 30px;">
+                    <p:dataTable value="#{jogoBean.resumos}" var="resumo">
+                        <p:column headerText="Time">
+                            <h:outputText value="Time #{resumo.time}"/>
+                        </p:column>
+                        <p:column headerText="Pontuação">
+                            <h:outputText value="#{resumo.pontuacao}"/>
+                        </p:column>
+                        <p:column headerText="Vitórias">
+                            <h:outputText value="#{resumo.vitorias}"/>
+                        </p:column>
+                        <p:column headerText="Derrotas">
+                            <h:outputText value="#{resumo.derrotas}"/>
+                        </p:column>
+                        <p:column headerText="Empates">
+                            <h:outputText value="#{resumo.empates}"/>
+                        </p:column>
+                        <p:column headerText="Gols Marcados">
+                            <h:outputText value="#{resumo.golsMarcados}"/>
+                        </p:column>
+                        <p:column headerText="Gols Sofridos">
+                            <h:outputText value="#{resumo.golsSofridos}"/>
+                        </p:column>
+                        <p:column headerText="Saldo de Gols">
+                            <h:outputText value="#{resumo.saldoGols}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:panel>
+    </div>
+</h:body>
+</html>

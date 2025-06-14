@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Filtro de Jogos por Time</title>
+    <meta charset="utf-8"/>
+</h:head>
+
+<h:body>
+    <div style="margin: 30px;">
+        <p:panel header="Filtro de Jogos por Time">
+            <h:form>
+                <p:messages autoUpdate="true"/>
+                
+                <p:panelGrid columns="3" style="margin: 20px 0;">
+                    <p:outputLabel for="timeFiltro" value="Selecione o Time:"/>
+                    <p:selectOneMenu id="timeFiltro" value="#{jogoBean.timeFiltro}">
+                        <f:selectItem itemLabel="Selecione..." itemValue=""/>
+                        <f:selectItems value="#{jogoBean.times}" var="time" 
+                                     itemLabel="Time #{time}" itemValue="#{time}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Localizar" action="#{jogoBean.filtrarPorTime}" 
+                                   update="@form"/>
+                </p:panelGrid>
+                
+                <p:button value="Voltar" outcome="opcoes" style="margin-bottom: 20px;"/>
+                
+                <p:dataTable value="#{jogoBean.jogosFiltrados}" var="jogo" 
+                           emptyMessage="Nenhum jogo encontrado para o time selecionado"
+                           rendered="#{jogoBean.jogosFiltrados != null}">
+                    <f:facet name="header">
+                        Jogos do Time #{jogoBean.timeFiltro}
+                    </f:facet>
+                    
+                    <p:column headerText="ID">
+                        <h:outputText value="#{jogo.id}"/>
+                    </p:column>
+                    <p:column headerText="Data Partida">
+                        <h:outputText value="#{jogo.dataPartida}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Campeonato">
+                        <h:outputText value="#{jogo.campeonato.nome}"/>
+                    </p:column>
+                    <p:column headerText="Time 1">
+                        <h:outputText value="#{jogo.time1}"/>
+                    </p:column>
+                    <p:column headerText="Time 2">
+                        <h:outputText value="#{jogo.time2}"/>
+                    </p:column>
+                    <p:column headerText="Gols T1">
+                        <h:outputText value="#{jogo.golsTime1}"/>
+                    </p:column>
+                    <p:column headerText="Gols T2">
+                        <h:outputText value="#{jogo.golsTime2}"/>
+                    </p:column>
+                    <p:column headerText="Resultado">
+                        <h:outputText value="Vitória" rendered="#{(jogoBean.timeFiltro == jogo.time1 and jogo.golsTime1 > jogo.golsTime2) or (jogoBean.timeFiltro == jogo.time2 and jogo.golsTime2 > jogo.golsTime1)}" style="color: green; font-weight: bold;"/>
+                        <h:outputText value="Derrota" rendered="#{(jogoBean.timeFiltro == jogo.time1 and jogo.golsTime1 < jogo.golsTime2) or (jogoBean.timeFiltro == jogo.time2 and jogo.golsTime2 < jogo.golsTime1)}" style="color: red; font-weight: bold;"/>
+                        <h:outputText value="Empate" rendered="#{jogo.golsTime1 == jogo.golsTime2}" style="color: orange; font-weight: bold;"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </div>
+</h:body>
+</html>

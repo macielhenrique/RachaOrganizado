@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+      
+
+<h:head>
+    <title>Cadastro de Jogos</title>
+    <meta charset="utf-8"/>
+</h:head>
+
+<h:body>
+    <div style="margin: 30px;">
+        <p:panel header="Cadastro de Jogos">
+            <h:form>
+                <p:messages autoUpdate="true"/>
+
+                <p:panelGrid columns="2" style="margin: 20px 0;">
+                    <p:outputLabel for="dataPartida" value="Data da Partida:"/>
+                    <p:calendar id="dataPartida" value="#{jogoBean.jogo.dataPartida}"
+                               required="true" pattern="dd/MM/yyyy"/>
+
+                   <p:outputLabel for="campeonato" value="Campeonato:"/>
+					<p:selectOneMenu id="campeonato" value="#{jogoBean.jogo.campeonato}" required="true">
+        <f:selectItem itemLabel="Selecione..." itemValue="#{null}"/>
+        <f:selectItems value="#{jogoBean.campeonatos}" var="camp"
+                       itemLabel="#{camp.nome}" itemValue="#{camp}"/>
+
+        <o:converter converterId="omnifaces.SelectItemsConverter" />
+
+    </p:selectOneMenu>
+                    <p:outputLabel for="time1" value="Time 1:"/>
+                    <p:selectOneMenu id="time1" value="#{jogoBean.jogo.time1}" required="true">
+                        <f:selectItem itemLabel="Selecione..." itemValue=""/>
+                        <f:selectItems value="#{jogoBean.times}" var="time"
+                                      itemLabel="Time #{time}" itemValue="#{time}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="time2" value="Time 2:"/>
+                    <p:selectOneMenu id="time2" value="#{jogoBean.jogo.time2}" required="true">
+                        <f:selectItem itemLabel="Selecione..." itemValue=""/>
+                        <f:selectItems value="#{jogoBean.times}" var="time"
+                                      itemLabel="Time #{time}" itemValue="#{time}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="golsTime1" value="Gols Time 1:"/>
+                    <p:inputNumber id="golsTime1" value="#{jogoBean.jogo.golsTime1}"
+                                  required="true" minValue="0" decimalPlaces="0"/>
+
+                    <p:outputLabel for="golsTime2" value="Gols Time 2:"/>
+                    <p:inputNumber id="golsTime2" value="#{jogoBean.jogo.golsTime2}"
+                                  required="true" minValue="0" decimalPlaces="0"/>
+                </p:panelGrid>
+
+                <p:commandButton value="Salvar" action="#{jogoBean.salvar}"
+                                update="@form" style="margin-right: 10px;"/>
+                <p:button value="Voltar" outcome="opcoes"/>
+                <p:button value="Ver Listagem" outcome="listagem" style="margin-left: 10px;"/>
+            </h:form>
+        </p:panel>
+    </div>
+</h:body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://xmlns.jcp.org/jsf/html"
+xmlns:f="http://xmlns.jcp.org/jsf/core"
+xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+<title>Sistema de Jogos - Opções</title>
+<meta charset="utf-8"/>
+</h:head>
+
+<h:body>
+<div style="margin: 50px;">
+<p:panel header="Sistema de Gerenciamento de Jogos">
+    <h:form>
+        <p:menubar>
+            <p:menuitem value="Usuários" outcome="cadastro_usuario"/>
+            <p:menuitem value="Campeonatos" outcome="cadastro_campeonato"/>
+            <p:menuitem value="Jogos" outcome="cadastro_jogo"/>
+            <p:menuitem value="Listagem" outcome="listagem"/>
+            <p:menuitem value="Filtros" outcome="filtro"/>
+            <p:menuitem value="Sair" action="#{loginBean.sair}"/>
+        </p:menubar>
+    </h:form>
+
+<div style="margin-top: 30px;">
+<h3>Bem-vindo ao Sistema!</h3>
+<p>Escolha uma das opções no menu acima:</p>
+<ul>
+<li><strong>Usuários:</strong> Cadastrar novos usuários do sistema</li>
+<li><strong>Campeonatos:</strong> Criar e gerenciar campeonatos</li>
+<li><strong>Jogos:</strong> Cadastrar novos jogos</li>
+<li><strong>Listagem:</strong> Visualizar todos os jogos cadastrados</li>
+<li><strong>Filtros:</strong> Filtrar jogos por time</li>
+</ul>
+</div>
+</p:panel>
+</div>
+</h:body>
+</html>

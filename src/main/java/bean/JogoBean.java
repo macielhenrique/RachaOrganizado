@@ -24,10 +24,17 @@ public class JogoBean implements Serializable {
     private boolean exibirResumos = false;
     private String timeFiltro;
     private List<Jogo> jogosFiltrados;
+    private Integer campeonatoSelecionadoId;
+
+    
+    
     
     public String salvar() {
         EntityManager em = null;
         try {
+            // Processar campeonato selecionado antes das validações
+            processarCampeonatoSelecionado();
+            
             // Validação: times não podem ser iguais
             if (jogo.getTime1().equals(jogo.getTime2())) {
                 addMessage(FacesMessage.SEVERITY_ERROR, "Erro", 
@@ -46,6 +53,7 @@ public class JogoBean implements Serializable {
             addMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Jogo salvo com sucesso!");
             
             jogo = new Jogo();
+            campeonatoSelecionadoId = null; // Limpar seleção
             jogos = null; // Force reload
             return null;
             
@@ -210,6 +218,8 @@ public class JogoBean implements Serializable {
             new FacesMessage(severity, summary, detail));
     }
     
+    
+    
     // Getters e Setters
     public Jogo getJogo() { return jogo; }
     public void setJogo(Jogo jogo) { this.jogo = jogo; }
@@ -228,4 +238,35 @@ public class JogoBean implements Serializable {
     
     public List<Jogo> getJogosFiltrados() { return jogosFiltrados; }
     public void setJogosFiltrados(List<Jogo> jogosFiltrados) { this.jogosFiltrados = jogosFiltrados; }
+    
+    public Integer getCampeonatoSelecionadoId() {
+        if (jogo != null && jogo.getCampeonato() != null) {
+            return jogo.getCampeonato().getId();
+        }
+        return campeonatoSelecionadoId;
+    }
+
+    public void setCampeonatoSelecionadoId(Integer campeonatoSelecionadoId) {
+        this.campeonatoSelecionadoId = campeonatoSelecionadoId;
+    }
+    
+    // Método para processar a seleção do campeonato antes de salvar
+    private void processarCampeonatoSelecionado() {
+        if (campeonatoSelecionadoId != null) {
+            try {
+                List<Campeonato> listaCampeonatos = getCampeonatos();
+                if (listaCampeonatos != null) {
+                    for (Campeonato c : listaCampeonatos) {
+                        if (c.getId().equals(campeonatoSelecionadoId)) {
+                            this.jogo.setCampeonato(c);
+                            break;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                // Log do erro, mas não quebra o fluxo
+                System.err.println("Erro ao processar campeonato: " + e.getMessage());
+            }
+        }
+    }
 }
