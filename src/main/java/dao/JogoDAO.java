@@ -53,13 +53,19 @@ public class JogoDAO {
     }
     
     public List<Jogo> listar() {
-        TypedQuery<Jogo> query = em.createQuery("SELECT j FROM Jogo j", Jogo.class);
+        // A única mudança está na string da consulta abaixo:
+        String jpql = "SELECT j FROM Jogo j JOIN FETCH j.campeonato";
+        TypedQuery<Jogo> query = em.createQuery(jpql, Jogo.class);
         return query.getResultList();
     }
     
     public List<Jogo> buscarPorTime(String time) {
-        TypedQuery<Jogo> query = em.createNamedQuery("Jogo.findByTime", Jogo.class);
-        query.setParameter("time", time);
+        // Criamos uma nova consulta JPQL com JOIN FETCH e a cláusula WHERE
+        String jpql = "SELECT j FROM Jogo j JOIN FETCH j.campeonato WHERE j.time1 = :time OR j.time2 = :time";
+        
+        TypedQuery<Jogo> query = em.createQuery(jpql, Jogo.class);
+        query.setParameter("time", time); // Definimos o parâmetro :time
+        
         return query.getResultList();
     }
     

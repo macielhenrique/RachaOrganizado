@@ -58,11 +58,22 @@
                     <p:column headerText="Gols T2">
                         <h:outputText value="#{jogo.golsTime2}"/>
                     </p:column>
+                    
                     <p:column headerText="Resultado">
-                        <h:outputText value="Vitória" rendered="#{(jogoBean.timeFiltro == jogo.time1 and jogo.golsTime1 > jogo.golsTime2) or (jogoBean.timeFiltro == jogo.time2 and jogo.golsTime2 > jogo.golsTime1)}" style="color: green; font-weight: bold;"/>
-                        <h:outputText value="Derrota" rendered="#{(jogoBean.timeFiltro == jogo.time1 and jogo.golsTime1 < jogo.golsTime2) or (jogoBean.timeFiltro == jogo.time2 and jogo.golsTime2 < jogo.golsTime1)}" style="color: red; font-weight: bold;"/>
-                        <h:outputText value="Empate" rendered="#{jogo.golsTime1 == jogo.golsTime2}" style="color: orange; font-weight: bold;"/>
+                        <h:outputText value="Vitória" 
+                                      rendered="#{(jogoBean.timeFiltro eq jogo.time1 and jogo.golsTime1 gt jogo.golsTime2) or (jogoBean.timeFiltro eq jogo.time2 and jogo.golsTime2 gt jogo.golsTime1)}" 
+                                      style="color: green; font-weight: bold;"/>
+                        
+                        <h:outputText value="Derrota" 
+                                      rendered="#{(jogoBean.timeFiltro eq jogo.time1 and jogo.golsTime1 lt jogo.golsTime2) or (jogoBean.timeFiltro eq jogo.time2 and jogo.golsTime2 lt jogo.golsTime1)}" 
+                                      style="color: red; font-weight: bold;"/>
+                        
+                        <h:outputText value="Empate" 
+                                      rendered="#{jogo.golsTime1 eq jogo.golsTime2}" 
+                                      style="color: orange; font-weight: bold;"/>
+                                      
                     </p:column>
+                    
                 </p:dataTable>
             </h:form>
         </p:panel>
